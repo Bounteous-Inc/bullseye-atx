@@ -1,0 +1,8 @@
+{
+    "scripts": [
+        "create service user bullseye-anti-flicker-service-user",
+        "create service user bullseye-cf-recs-service-user",
+        "set ACL for bullseye-anti-flicker-service-user\n\tallow jcr:read,rep:write,jcr:modifyProperties,jcr:addChildNodes on /conf,/apps/bullseye-aem\nend",
+        "set ACL for bullseye-cf-recs-service-user\n\tallow jcr:read,rep:write,jcr:modifyProperties,jcr:addChildNodes on /conf,/apps/bullseye-aem,/content/dam\nend"
+    ]
+}

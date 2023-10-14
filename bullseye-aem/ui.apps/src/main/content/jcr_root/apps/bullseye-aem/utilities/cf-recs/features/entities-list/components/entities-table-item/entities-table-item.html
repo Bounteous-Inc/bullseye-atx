@@ -1,0 +1,10 @@
+<tr is="coral-table-row" class="foundation-collection-item" data-foundation-collection-item-id="${resource.path}">
+    <td is="coral-table-cell">
+        <coral-checkbox coral-table-rowselect/>
+    </td>
+    <sly data-sly-list="${resource.valueMap.values}">
+        <td is="coral-table-cell">
+            ${item}
+        </td>
+    </sly>
+</tr>

@@ -1,0 +1,117 @@
+window.handleAntiFlicker = function(win, doc) {
+    function TargetFlickerConfig(pathRegex, checkHash, domainList, cssSelectorList, preFlickerFunction, postFlickerFunction, timeout) {
+        this.pathRegex = pathRegex;                      // A regular expression that must match the current path
+        this.checkHash = checkHash;                      // If true then include anything past # when checking the path
+        this.domainList = domainList;                    // A list of domains or empty list to allow all domains
+        this.cssSelectorList = cssSelectorList;          // A CSS selector indicating the element to hide
+        this.preFlickerFunction = preFlickerFunction;    // The name of a Javascript function to run before flicker happens
+        this.postFlickerFunction = postFlickerFunction;  // The name of a Javascript function to run after flicker happens
+        this.timeout = timeout;                          // The max number of milliseconds to keep the element hidden
+    }
+
+    // IMPORTANT: This configuration should match the Target tag load rules
+    const targetFlickerConfigList = [
+#foreach( $targetFlickerConfig in $antiFlickerConfigList )
+  ##Enclose domainList entries in single quotes
+  #set( $domainList = [] )
+  #foreach( $domain in $targetFlickerConfig.domainList)
+    #set( $ignoreReturnValue = $domainList.add("'${domain}'") )
+  #end
+  ##Enclose cssSelectorList entries in single quotes
+  #set( $cssSelectorList = [] )
+  #foreach( $cssSelector in $targetFlickerConfig.cssSelectorList)
+    #set( $ignoreReturnValue = $cssSelectorList.add("'${cssSelector}'") )
+  #end
+  #set( $preFlickerFunction = $targetFlickerConfig.preFlickerFunctionName )
+  #if (!$preFlickerFunction)
+    #set ($preFlickerFunction = "null")
+  #end
+  #set( $postFlickerFunction = $targetFlickerConfig.postFlickerFunctionName )
+  #if (!$postFlickerFunction)
+    #set ($postFlickerFunction = "null")
+  #end
+  ##Write out config
+      new TargetFlickerConfig($targetFlickerConfig.pathRegexEscaped, $targetFlickerConfig.checkHash, $domainList, $cssSelectorList, $preFlickerFunction, $postFlickerFunction, $targetFlickerConfig.timeout),
+#end
+    ];
+
+    const isNotVEC = window.location.search.indexOf("adobe_authoring_enabled") === -1 &&
+        window.location.search.indexOf("mboxEdit") === -1;
+    const isMboxNotDisabled = window.location.search.indexOf("mboxDisable") === -1;
+    const isDebug = window.location.search.indexOf('flickerDebug') > 0;
+
+    if (isNotVEC && isMboxNotDisabled) {
+        // Find matching configs based on pathRegex and domainList
+        const targetFlickerConfigMatchList = targetFlickerConfigList.filter(config => {
+            return config.pathRegex.test(config.checkHash ? window.location.pathname + window.location.hash : window.location.pathname) &&
+                (!config.domainList.length || config.domainList.some((domain) => window.location.hostname === domain));
+        });
+
+        targetFlickerConfigMatchList.forEach(targetFlickerConfig => {
+            processConfig(targetFlickerConfig)
+        });
+    }
+
+    function processConfig(targetFlickerConfig) {
+        runPreFlicker(targetFlickerConfig);
+        listenForTargetFinished(targetFlickerConfig);
+    }
+
+    function listenForTargetFinished(targetFlickerConfig) {
+        // Target finished for alloy.js (Web SDK)
+        window.__alloyMonitors = window.__alloyMonitors || [];
+        window.__alloyMonitors.push({
+            onCommandResolved(data) {
+                if (isTargetAlloyCommand(data)) {
+                    runPostFlicker(targetFlickerConfig);
+                }
+            },
+            onCommandRejected(data) {
+                if (isTargetAlloyCommand(data)) {
+                    runPostFlicker(targetFlickerConfig);
+                }
+            }
+        });
+
+        // Target finished for at.js
+        ['at-content-rendering-succeeded', 'at-request-failed', 'at-content-rendering-failed'].forEach(function (e) {
+            document.addEventListener(e, function (event) {
+                runPostFlicker(targetFlickerConfig);
+            }, false);
+        });
+
+        // Timeout in case Target never runs.
+        setTimeout(function () {
+            runPostFlicker(targetFlickerConfig);
+        }, targetFlickerConfig.timeout);
+    }
+
+    function runPreFlicker(targetFlickerConfig) {
+        if (isDebug) {
+            console.debug(`Flicker DEBUG: Running anti-flicker.  Config = ${JSON.stringify(targetFlickerConfig)};`);
+
+        }
+        targetFlickerConfig.preFlickerFunction && targetFlickerConfig.preFlickerFunction(win, doc, targetFlickerConfig);
+    }
+
+    function runPostFlicker(targetFlickerConfig) {
+        if (isDebug) {
+            console.debug(`Flicker DEBUG: Rolling back anti-flicker.  Config = ${JSON.stringify(targetFlickerConfig)};`)
+        }
+        targetFlickerConfig.postFlickerFunction && targetFlickerConfig.postFlickerFunction(win, doc, targetFlickerConfig);
+    }
+
+    function isTargetAlloyCommand(data) {
+        return data &&
+            data.commandName === 'sendEvent' &&
+            data.options && data.options.xdm &&
+            data.options.xdm.eventType === 'web.webpagedetails.pageViews';
+    }
+
+#foreach( $sharedJavascriptSnippet in $sharedJavascriptSnippetList )
+    $sharedJavascriptSnippet.functionCode
+#end
+}
+
+window.handleAntiFlicker(window, document);
+

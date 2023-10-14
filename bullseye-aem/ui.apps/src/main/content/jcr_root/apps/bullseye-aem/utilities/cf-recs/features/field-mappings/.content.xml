@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0"
+          xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+          xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="cq:Page">
+    <jcr:content
+            jcr:primaryType="nt:unstructured"
+            jcr:title="Field Mappings"
+            icon="graphPathing"
+            sling:redirect="{Boolean}false"
+            sling:resourceType="granite/ui/components/shell/collectionpage"
+            sling:vanityPath="/bullseye-aem/cf-recs/field-mappings"
+            consoleId="cf-recs-field-mappings"
+            currentView="${state[&quot;shell.collectionpage.layoutId&quot;].string}"
+            modeGroup="cf-recs-field-mappings-admin"
+            targetCollection=".cf-recs-field-mappings-admin">
+        <head jcr:primaryType="nt:unstructured">
+            <clientlibs
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/includeclientlibs"
+                    categories="[coralui3,granite.ui.coral.foundation,bullseye-aem.util.cf-recs.field-mappings]"/>
+        </head>
+        <breadcrumbs jcr:primaryType="nt:unstructured"
+                     path="${requestPathInfo.suffix}"
+                     rootPath="/conf"
+                     sling:resourceType="bullseye-aem/components/content/cf-recs/breadcrumbs"/>
+        <views jcr:primaryType="nt:unstructured">
+            <list
+                    granite:rel="cf-recs-field-mappings-admin"
+                    jcr:primaryType="nt:unstructured"
+                    jcr:title="List View"
+                    sling:resourceType="granite/ui/components/coral/foundation/table"
+                    icon="viewList"
+                    layoutId="list"
+                    limit="{Long}40"
+                    metaResourceType="cq/gui/components/coral/admin/page/meta"
+                    modeGroup="cf-recs-field-mappings-admin"
+                    path="${requestPathInfo.suffix}"
+                    size="${empty requestPathInfo.selectors[1] ? '40' : requestPathInfo.selectors[1]}"
+                    selectionMode="row"
+                    sortMode="remote"
+                    src="/mnt/overlay/bullseye-aem/utilities/cf-recs/features/field-mappings/jcr:content/views/list.html{+id}"
+                    stateId="shell.collectionpage">
+                <columns jcr:primaryType="nt:unstructured">
+                    <select
+                            jcr:primaryType="nt:unstructured"
+                            select="{Boolean}true"/>
+                    <cfModel
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="CF Model"/>
+                    <parentCfPaths
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Parent CF Paths"/>
+                    <fieldMappings
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Field Mappings"/>
+                    <enabled
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Enabled"/>
+                </columns>
+                <datasource
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="bullseye-aem/components/content/cf-recs/field-mapping/table-items"
+                        itemsLocation="${empty requestPathInfo.suffix ? '/conf' : requestPathInfo.suffix}"
+                        limit="999"
+                        offset="0"
+                        path="${requestPathInfo.suffix}"/>
+            </list>
+        </views>
+        <actions jcr:primaryType="nt:unstructured">
+            <secondary jcr:primaryType="nt:unstructured">
+                <create
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/pulldown"
+                        text="Create"
+                        variant="primary">
+                    <items jcr:primaryType="nt:unstructured">
+                        <createconfig
+                                granite:rel="cf-recs-field-mappings-admin-createconfig"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Add Mapping"
+                                sling:resourceType="granite/ui/components/coral/foundation/collection/actionlink"
+                                action="foundation.link"
+                                target=".cf-recs-field-mappings-admin"
+                                text="Add Mapping">
+                            <data
+                                    jcr:primaryType="nt:unstructured"
+                                    href.uritemplate="/mnt/overlay/bullseye-aem/utilities/cf-recs/features/field-mappings/createwizard.html{+id}"/>
+                        </createconfig>
+                    </items>
+                </create>
+            </secondary>
+            <selection jcr:primaryType="nt:unstructured">
+                <viewproperties
+                        granite:rel="cf-recs-field-mappings-admin-action-viewproperties"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                        action="foundation.link"
+                        activeSelectionCount="single"
+                        icon="infoCircle"
+                        target=".cf-recs-field-mappings-admin"
+                        text="Properties"
+                        variant="actionBar">
+                    <data
+                            jcr:primaryType="nt:unstructured"
+                            href.uritemplate="/mnt/overlay/bullseye-aem/utilities/cf-recs/features/field-mappings/properties.html{?item*}"/>
+                </viewproperties>
+                <publishToTarget
+                        granite:rel="cf-recs-field-mappings-admin-action-push-to-target"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                        action="bullseye-aem.action.cf-recs.field-mappings.push-to-target"
+                        activeSelectionCount="multiple"
+                        icon="globeExit"
+                        target=".cf-recs-field-mappings-admin"
+                        text="Push to Target"
+                        variant="actionBar">
+                    <data
+                            jcr:primaryType="nt:unstructured"
+                            href.uritemplate="/mnt/overlay/bullseye-aem/utilities/cf-recs/features/field-mappings/properties.html{?item*}"/>
+                </publishToTarget>
+                <deleteconfig
+                        granite:rel="cf-recs-field-mappings-admin-action-delete"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                        action="bullseye-aem.action.cf-recs.mapping.delete"
+                        activeSelectionCount="multiple"
+                        icon="delete"
+                        target=".cf-recs-field-mappings-admin"
+                        text="Delete"
+                        title="Delete"
+                        variant="actionBar"/>
+            </selection>
+        </actions>
+    </jcr:content>
+</jcr:root>

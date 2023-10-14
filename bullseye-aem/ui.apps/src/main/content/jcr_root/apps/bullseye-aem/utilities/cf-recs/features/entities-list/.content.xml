@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0"
+          xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+          xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="cq:Page">
+    <jcr:content
+            jcr:primaryType="nt:unstructured"
+            jcr:title="Target Entities List"
+            icon="table"
+            sling:redirect="{Boolean}false"
+            sling:resourceType="granite/ui/components/shell/collectionpage"
+            sling:vanityPath="/bullseye-aem/cf-recs/entities-list"
+            consoleId="cf-recs-entities-list"
+            contentPath="${requestPathInfo.suffix}"
+            currentView="${state[&quot;shell.collectionpage.layoutId&quot;].string}"
+            modeGroup="cf-recs-entities-list-admin"
+            targetCollection=".cf-recs-entities-list-admin">
+        <head jcr:primaryType="nt:unstructured">
+            <clientlibs
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/includeclientlibs"
+                    categories="[coralui3,granite.ui.coral.foundation,bullseye-aem.util.cf-recs.entities-list]"/>
+        </head>
+        <breadcrumbs jcr:primaryType="nt:unstructured"
+                     path="${requestPathInfo.suffix}"
+                     rootPath="/conf"
+                     sling:resourceType="bullseye-aem/components/content/cf-recs/breadcrumbs"/>
+        <views jcr:primaryType="nt:unstructured">
+            <list
+                    granite:rel="cf-recs-entities-list-admin"
+                    jcr:primaryType="nt:unstructured"
+                    jcr:title="List View"
+                    sling:resourceType="granite/ui/components/coral/foundation/table"
+                    icon="viewList"
+                    layoutId="list"
+                    limit="{Long}40"
+                    metaResourceType="cq/gui/components/coral/admin/page/meta"
+                    modeGroup="cf-recs-entities-list-admin"
+                    path="${requestPathInfo.suffix}"
+                    selectionMode="row"
+                    sortMode="remote"
+                    size="${empty requestPathInfo.selectors[1] ? '40' : requestPathInfo.selectors[1]}"
+                    src="/mnt/overlay/bullseye-aem/utilities/cf-recs/features/entities-list/jcr:content/views/list.html{+id}{?sortName,sortDir}"
+                    stateId="shell.collectionpage">
+                <datasource
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="bullseye-aem/components/content/cf-recs/entities-list/table-items"
+                        itemsLocation="${empty requestPathInfo.suffix ? '/conf' : requestPathInfo.suffix}"
+                        limit="${empty requestPathInfo.selectors[1] ? &quot;41&quot; : requestPathInfo.selectors[1] + 1}"
+                        offset="${requestPathInfo.selectors[0]}"
+                        path="${requestPathInfo.suffix}"/>
+                <columnsdatasource
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="bullseye-aem/components/content/cf-recs/entities-list/table-columns"/>
+            </list>
+        </views>
+        <actions jcr:primaryType="nt:unstructured">
+            <selection jcr:primaryType="nt:unstructured">
+                <deleteconfig
+                        granite:rel="cf-recs-entities-list-admin-action-delete"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                        action="bullseye-aem.action.cf-recs.entity.delete"
+                        activeSelectionCount="multiple"
+                        icon="delete"
+                        target=".cf-recs-entities-list-admin"
+                        text="Delete"
+                        title="Delete"
+                        variant="actionBar"/>
+            </selection>
+        </actions>
+    </jcr:content>
+</jcr:root>

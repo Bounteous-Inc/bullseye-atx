@@ -1,0 +1,26 @@
+<tr is="coral-table-row" class="foundation-collection-item" data-sly-use.config="com.bullseyeaem.core.antiflicker.models.AntiFlickerConfig" data-foundation-collection-item-id="${config.id}">
+    <td is="coral-table-cell">
+        <coral-checkbox coral-table-rowselect />
+    </td>
+    <td is="coral-table-cell">
+        ${config.name}
+    </td>
+    <td is="coral-table-cell">
+        ${config.pathRegex}
+    </td>
+    <td is="coral-table-cell">
+        [${config.domainList @join=', '}]
+    </td>
+    <td is="coral-table-cell">
+        [${config.cssSelectorList @join=', '}]
+    </td>
+    <td is="coral-table-cell">
+        ${config.stagingIdentifier}
+    </td>
+    <td is="coral-table-cell">
+        ${config.timeout}
+    </td>
+    <td is="coral-table-cell">
+        ${config.enabled}
+    </td>
+</tr>

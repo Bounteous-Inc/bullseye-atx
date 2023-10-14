@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        jcr:primaryType="nt:unstructured"
+        jcr:title="Create Cf Recs Field Mapping"
+        sling:resourceType="granite/ui/components/coral/foundation/page">
+        <head jcr:primaryType="nt:unstructured">
+            <viewport
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/admin/page/viewport"/>
+            <favicon
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/page/favicon"/>
+            <clientlibs
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/includeclientlibs"
+                categories="[coralui3,granite.ui.coral.foundation]"/>
+        </head>
+        <body
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/page/body">
+            <items jcr:primaryType="nt:unstructured">
+                <form
+                    jcr:primaryType="nt:unstructured"
+                    granite:id="aem-bullseye-cf-recs-mappings-wizard-form"
+                    sling:resourceType="granite/ui/components/coral/foundation/form"
+                    action="${granite:encodeURIPath(empty requestPathInfo.suffix ? '/conf' : requestPathInfo.suffix)}/cf-recs/field-mappings/"
+                    foundationForm="{Boolean}true"
+                    maximized="{Boolean}true"
+                    method="post"
+                    style="vertical">
+                    <successresponse
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Success"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/responses/redirect"
+                        href="${granite:concat('/apps/bullseye-aem/utilities/cf-recs/features/field-mappings.html', granite:encodeURIPath(empty requestPathInfo.suffix ? '/conf' : requestPathInfo.suffix))}"
+                        text="The Mapping was created successfully."/>
+                    <items jcr:primaryType="nt:unstructured">
+                        <nameHint
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
+                            name=":nameHint"
+                            value="mapping"/>
+                        <primaryType
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
+                            name="./jcr:primaryType"
+                            value="nt:unstructured"/>
+                        <wizard
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Create Field Mapping"
+                            sling:resourceType="granite/ui/components/coral/foundation/wizard"
+                            cancelHref="/mnt/overlay/bullseye-aem/utilities/cf-recs.html">
+                            <items jcr:primaryType="nt:unstructured">
+                                <chooseModel
+                                    jcr:primaryType="nt:unstructured"
+                                    jcr:title="CF Model"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <properties
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/container"
+                                            rel="aem-bullseye-cf-recs-mappings-addmapping-properties">
+                                            <layout
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                                            <items jcr:primaryType="nt:unstructured">
+                                                <column
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/foundation/container">
+                                                    <items jcr:primaryType="nt:unstructured">
+                                                        <formFieldsInclude jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/foundation/include"
+                                                            path="/apps/bullseye-aem/utilities/cf-recs/features/field-mappings/common/form-fields-cf-model"/>
+                                                    </items>
+                                                </column>
+                                            </items>
+                                        </properties>
+                                    </items>
+                                    <parentConfig jcr:primaryType="nt:unstructured">
+                                        <prev
+                                            granite:class="foundation-wizard-control"
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/anchorbutton"
+                                            href="${empty header.Referer ? granite:concat('/bullseye-aem/cf-recs/field-mappings.html', granite:encodeURIPath(requestPathInfo.suffix)) : header.Referer}"
+                                            text="Cancel"
+                                            variant="quiet">
+                                            <granite:data
+                                                jcr:primaryType="nt:unstructured"
+                                                foundation-wizard-control-action="cancel"/>
+                                        </prev>
+                                        <next
+                                            granite:class="foundation-wizard-control"
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/button"
+                                            disabled="{Boolean}true"
+                                            text="Next"
+                                            variant="primary">
+                                            <granite:data
+                                                jcr:primaryType="nt:unstructured"
+                                                foundation-wizard-control-action="next"/>
+                                        </next>
+                                    </parentConfig>
+                                </chooseModel>
+                                <settings
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Mapping Details"
+                                        sling:resourceType="granite/ui/components/coral/foundation/wizard/lazycontainer"
+                                        src="/apps/bullseye-aem/utilities/cf-recs/features/field-mappings/common/form-fields-details.html{?selectedCfModelPath}">
+                                    <parentConfig jcr:primaryType="nt:unstructured">
+                                        <prev
+                                                granite:class="foundation-wizard-control"
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/button"
+                                                text="Back">
+                                            <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    foundation-wizard-control-action="prev"/>
+                                        </prev>
+                                        <next
+                                                granite:class="foundation-wizard-control"
+                                                granite:id="config-create-button"
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/button"
+                                                disabled="{Boolean}true"
+                                                text="Create"
+                                                type="submit"
+                                                variant="primary">
+                                            <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    foundation-wizard-control-action="next"/>
+                                        </next>
+                                    </parentConfig>
+                                </settings>
+                            </items>
+                        </wizard>
+                    </items>
+                </form>
+            </items>
+        </body>
+    </jcr:content>
+</jcr:root>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0"
+          xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+          xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="cq:Page">
+    <properties/>
+    <jcr:content
+            jcr:primaryType="nt:unstructured"
+            jcr:title="Anti-Flicker Configs"
+            sling:redirect="{Boolean}false"
+            sling:resourceType="granite/ui/components/shell/collectionpage"
+            sling:vanityPath="/bullseye-aem/anti-flicker"
+            consoleId="anti-flicker-configs"
+            currentView="${state[&quot;shell.collectionpage.layoutId&quot;].string}"
+            modeGroup="anti-flicker-admin"
+            targetCollection=".anti-flicker-admin">
+        <head jcr:primaryType="nt:unstructured">
+            <clientlibs
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/includeclientlibs"
+                    categories="[coralui3,granite.ui.coral.foundation,cq.workflow.admin,bullseye-aem.util.anti-flicker]"/>
+        </head>
+        <views jcr:primaryType="nt:unstructured">
+            <list
+                    granite:rel="anti-flicker-admin"
+                    jcr:primaryType="nt:unstructured"
+                    jcr:title="List View"
+                    sling:resourceType="granite/ui/components/coral/foundation/table"
+                    icon="viewList"
+                    layoutId="list"
+                    limit="{Long}40"
+                    metaResourceType="cq/gui/components/coral/admin/page/meta"
+                    modeGroup="anti-flicker-admin"
+                    path="${requestPathInfo.suffix}"
+                    selectionMode="row"
+                    sortMode="remote"
+                    src="/mnt/overlay/bullseye-aem/utilities/anti-flicker/jcr:content/views/list{.offset,limit}.html"
+                    stateId="shell.collectionpage">
+                <columns jcr:primaryType="nt:unstructured">
+                    <select
+                            jcr:primaryType="nt:unstructured"
+                            select="{Boolean}true"/>
+                    <name
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Name"/>
+                    <pathRegex
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Path Regex"/>
+                    <domainList
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Domains"
+                            fixedWidth="{Boolean}true"/>
+                    <cssSelectorList
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="CSS Selectors"/>
+                    <stagingIdentifier
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Staging Id"/>
+                    <timeout
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Timeout"/>
+                    <isEnabled
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Enabled"
+                            fixedWidth="{Boolean}true"/>
+                </columns>
+                <datasource
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="bullseye-aem/components/content/anti-flicker/table-items"
+                        limit="${empty requestPathInfo.selectors[1] ? &quot;41&quot; : requestPathInfo.selectors[1] + 1}"
+                        offset="${requestPathInfo.selectors[0]}"
+                        path="${requestPathInfo.suffix}"/>
+            </list>
+        </views>
+        <actions jcr:primaryType="nt:unstructured">
+            <primary jcr:primaryType="nt:unstructured">
+                <settings
+                        granite:rel="anti-flicker-admin-settings"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Settings"
+                        sling:resourceType="granite/ui/components/coral/foundation/collection/actionlink"
+                        action="foundation.link"
+                        target=".anti-flicker-admin"
+                        icon="gear"
+                        text="Settings"
+                        hideText="{Boolean}true">
+                    <data
+                            jcr:primaryType="nt:unstructured"
+                            href.uritemplate="/mnt/overlay/bullseye-aem/utilities/anti-flicker/settings.html?item=/conf/global/settings/bullseye-aem/anti-flicker/settings"/>
+                </settings>
+                <publishAll
+                        granite:rel="anti-flicker-admin-actions-quickpublish-activator"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                        action="bullseye-aem.action.antiflicker.publishall"
+                        activeSelectionCount="none"
+                        icon="globe"
+                        target=".anti-flicker-admin"
+                        text="Publish Configs and Settings"
+                        variant="actionBar">
+                    <data
+                            jcr:primaryType="nt:unstructured"
+                            referenceSrc.url="/libs/wcm/core/content/reference.json?_charset_=utf-8{&amp;path*}"
+                            replication-url="${granite:url(&quot;/bin/replicate.json&quot;)}"
+                            url="${granite:url(&quot;/libs/wcm/core/content/sites/publishpagewizard.html&quot;)}"/>
+                </publishAll>
+            </primary>
+            <secondary jcr:primaryType="nt:unstructured">
+                <create
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/pulldown"
+                        text="Create"
+                        variant="primary">
+                    <items jcr:primaryType="nt:unstructured">
+                        <createconfig
+                                granite:rel="anti-flicker-admin-createconfig"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Create Config"
+                                sling:resourceType="granite/ui/components/coral/foundation/collection/actionlink"
+                                action="foundation.link"
+                                target=".anti-flicker-admin"
+                                text="Add Config">
+                            <data
+                                    jcr:primaryType="nt:unstructured"
+                                    href.uritemplate="/mnt/overlay/bullseye-aem/utilities/anti-flicker/createwizard.html"/>
+                        </createconfig>
+                    </items>
+                </create>
+            </secondary>
+            <selection jcr:primaryType="nt:unstructured">
+                <viewproperties
+                        granite:rel="anti-flicker-admin-action-viewproperties"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                        action="foundation.link"
+                        activeSelectionCount="single"
+                        icon="infoCircle"
+                        target=".anti-flicker-admin"
+                        text="Properties"
+                        variant="actionBar">
+                    <data
+                            jcr:primaryType="nt:unstructured"
+                            href.uritemplate="/mnt/overlay/bullseye-aem/utilities/anti-flicker/properties.html{?item*}"/>
+                </viewproperties>
+                <deleteaction
+                        granite:rel="target-anti-flicker-configs-admin-action-delete"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                        action="bullseye-aem.action.antiflicker.delete"
+                        activeSelectionCount="multiple"
+                        icon="delete"
+                        target=".anti-flicker-admin"
+                        text="Delete"
+                        variant="actionBar"/>
+            </selection>
+        </actions>
+    </jcr:content>
+</jcr:root>

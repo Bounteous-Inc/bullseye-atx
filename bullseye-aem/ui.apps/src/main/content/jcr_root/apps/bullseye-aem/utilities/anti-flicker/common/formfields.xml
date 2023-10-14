@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="granite/ui/components/coral/foundation/container">
+    <items jcr:primaryType="nt:unstructured">
+        <name
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+            fieldLabel="Name"
+            fieldDescription="A name to reference this config by."
+            name="./name"
+            requried="{Boolean}true"/>
+        <description
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
+            fieldLabel="Description"
+            fieldDescription="The description of this config."
+            name="./description"/>
+        <pathRegex
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+            fieldLabel="Path Regex"
+            fieldDescription="Use a regular expression to define exact paths or those that start with a value.  Leave blank for all paths."
+            name="./pathRegex"/>
+        <domainList
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+            fieldDescription="Click 'Add Field' to add a new domain."
+            fieldLabel="Domain List">
+            <field
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                fieldLabel="Domain"
+                name="./domainList"/>
+        </domainList>
+        <cssSelectorList
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+            name="cssSelectorList"
+            fieldLabel="CSS Selectors for Targeted Components"
+            fieldDescription="Enter the CSS selectors that the anti-flicker script should hide.">
+            <field
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                fieldLabel="CSS Selector"
+                name="./cssSelectorList"/>
+        </cssSelectorList>
+        <stagingIdentifier
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/form/select"
+            fieldLabel="Staging Identifier"
+            fieldDescription="Set a unique staging identifier to be used in the servlet endpoint, making it unique to a staging environment.  For example, selecting 'qa' will require a call to `https://mycompany.com/services/flicker.qa.js`.  Note that to populate this dropdown you must first define staging identifiers in the Settings of Anti-Flicker Configs."
+            name="./stagingIdentifier"
+            emptyOption="{Boolean}true"
+            emptyText="All">
+            <datasource
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="bullseye-aem/components/content/anti-flicker/staging-identifiers" />
+        </stagingIdentifier>
+        <sharedJavascriptPath
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                fieldLabel="Anti-Flicker Javascript"
+                fieldDescription="Set a snippet of Javascript to run before and after the flicker occurs.  For example, some code that renders a loading spinner."
+                name="./sharedJavascriptPath"
+                emptyOption="{Boolean}true"
+                emptyText="None">
+            <datasource
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="bullseye-aem/components/content/anti-flicker/shared-javascript-snippets" />
+        </sharedJavascriptPath>
+        <timeout
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+            fieldLabel="Timeout"
+            name="./timeout"
+            value="10000"/>
+        <enabled
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+            text="Enabled"
+            name="./enabled"
+            value="{Boolean}true"
+            uncheckedValue="{Boolean}false"
+            checked="{Boolean}true"/>
+    </items>
+</jcr:root>

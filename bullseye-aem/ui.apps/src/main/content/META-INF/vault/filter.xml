@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/bullseye-aem/clientlibs"/>
+    <filter root="/apps/bullseye-aem/components"/>
+    <filter root="/apps/bullseye-aem/i18n"/>
+    <filter root="/apps/bullseye-aem/utilities"/>
+    <filter root="/apps/cq/core/content/nav/tools/bullseye-aem"/>
+</workspaceFilter>

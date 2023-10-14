@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="nt:unstructured">
+    <stagingIdentifierList jcr:primaryType="nt:unstructured">
+        <item0
+                jcr:primaryType="nt:unstructured"
+                name="QA"
+                value="qa"/>
+        <item1
+                jcr:primaryType="nt:unstructured"
+                name="Prod"
+                value="prod"/>
+    </stagingIdentifierList>
+    <sharedJavascriptSnippetList jcr:primaryType="nt:unstructured">
+        <item0
+                jcr:primaryType="nt:unstructured"
+                name="Hide Section"
+                preFlickerCode="        const STYLE_ID = 'at-body-style';&#xd;&#xa;        const styleElement = doc.getElementById(STYLE_ID);&#xd;&#xa;        &#xd;&#xa;        if (styleElement) {&#xd;&#xa;            doc.head.removeChild(styleElement);&#xd;&#xa;        }"
+                postFlickerCode="        const STYLE_ID = 'at-body-style';&#xd;&#xa;        const HIDE_STYLE = '{opacity:0!important}';&#xd;&#xa;        if (!doc.querySelector(`#${STYLE_ID}`)) {&#xd;&#xa;            const styleElement = doc.createElement('style');&#xd;&#xa;            styleElement.id = STYLE_ID;&#xd;&#xa;            styleElement.innerHTML = `${targetFlickerConfig.cssSelectorList.join(',')} ${HIDE_STYLE}`;&#xd;&#xa;            doc.head.appendChild(styleElement);&#xd;&#xa;        }"/>
+        <item1
+                jcr:primaryType="nt:unstructured"
+                name="Spinner Overlay"
+                preFlickerCode="const spinnerStyleElement = document.createElement('style');&#xd;&#xa;const spinnerDivElement = document.createElement('div');&#xd;&#xa;const overlayDivElement = document.createElement('div');&#xd;&#xa;&#xd;&#xa;overlayDivElement.id = 'antiFlickerSpinnerOverlay';&#xd;&#xa;overlayDivElement.style.position = 'fixed';&#xd;&#xa;overlayDivElement.style.backgroundColor = 'gray';&#xd;&#xa;overlayDivElement.style.opacity = '.9';&#xd;&#xa;overlayDivElement.style.width = '100%';&#xd;&#xa;overlayDivElement.style.height = '100%';&#xd;&#xa;overlayDivElement.style.zIndex = '999999999';&#xd;&#xa;overlayDivElement.style.top = '0';&#xd;&#xa;&#xd;&#xa;spinnerStyleElement.innerHTML = `&#xd;&#xa;    .lds-ring {&#xd;&#xa;        width: 80px;&#xd;&#xa;        height: 80px;&#xd;&#xa;        position: absolute;&#xd;&#xa;        top: 50%;&#xd;&#xa;        left: 50%;&#xd;&#xa;        margin: -50px 0 0 -50px;&#xd;&#xa;    }&#xd;&#xa;&#xd;&#xa;    .lds-ring div {&#xd;&#xa;        box-sizing: border-box;&#xd;&#xa;        display: block;&#xd;&#xa;        position: absolute;&#xd;&#xa;        width: 64px;&#xd;&#xa;        height: 64px;&#xd;&#xa;        margin: 8px;&#xd;&#xa;        border: 8px solid #fff;&#xd;&#xa;        border-radius: 50%;&#xd;&#xa;        animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;&#xd;&#xa;        border-color: #fff transparent transparent transparent;&#xd;&#xa;    }&#xd;&#xa;&#xd;&#xa;    .lds-ring div:nth-child(1) {&#xd;&#xa;        animation-delay: -0.45s;&#xd;&#xa;    }&#xd;&#xa;&#xd;&#xa;    .lds-ring div:nth-child(2) {&#xd;&#xa;        animation-delay: -0.3s;&#xd;&#xa;    }&#xd;&#xa;&#xd;&#xa;    .lds-ring div:nth-child(3) {&#xd;&#xa;        animation-delay: -0.15s;&#xd;&#xa;    }&#xd;&#xa;&#xd;&#xa;    @keyframes lds-ring {&#xd;&#xa;        0% {&#xd;&#xa;            transform: rotate(0deg);&#xd;&#xa;        }&#xd;&#xa;        100% {&#xd;&#xa;            transform: rotate(360deg);&#xd;&#xa;        }&#xd;&#xa;    }&#xd;&#xa;`;&#xd;&#xa;&#xd;&#xa;spinnerDivElement.appendChild(document.createElement('div'));&#xd;&#xa;spinnerDivElement.appendChild(document.createElement('div'));&#xd;&#xa;spinnerDivElement.appendChild(document.createElement('div'));&#xd;&#xa;spinnerDivElement.appendChild(document.createElement('div'));&#xd;&#xa;&#xd;&#xa;spinnerDivElement.classList.add(&quot;lds-ring&quot;);&#xd;&#xa;&#xd;&#xa;document.head.appendChild(spinnerStyleElement);&#xd;&#xa;overlayDivElement.appendChild(spinnerDivElement);&#xd;&#xa;&#xd;&#xa;const observer = new MutationObserver(mutationList => {&#xd;&#xa;    if (document.body) {&#xd;&#xa;        document.body.appendChild(overlayDivElement);&#xd;&#xa;        observer.disconnect();&#xd;&#xa;    }&#xd;&#xa;});&#xd;&#xa;&#xd;&#xa;observer.observe(document, {&#xd;&#xa;    childList: true,&#xd;&#xa;    subtree: true&#xd;&#xa;});"
+                postFlickerCode="document.querySelector('#antiFlickerSpinnerOverlay').remove();"/>
+    </sharedJavascriptSnippetList>
+</jcr:root>

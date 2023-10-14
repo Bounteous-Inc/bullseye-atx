@@ -1,0 +1,12 @@
+<tr is="coral-table-row" class="foundation-collection-item foundation-collection-navigator"
+    data-sly-use.feature="com.bullseyeaem.core.common.models.FeaturePageRow"
+    data-foundation-collection-item-id="${feature.path}"
+    data-granite-collection-item-id="${feature.path}"
+    data-foundation-collection-navigator-href="${feature.href}">
+    <td is="coral-table-cell">
+        <coral-icon class="foundation-collection-item-thumbnail" icon="${feature.icon}"></coral-icon>
+    </td>
+    <td class="foundation-collection-item-title" is="coral-table-cell" value="${feature.name}">
+        <span class="title">${feature.name}</span>
+    </td>
+</tr>

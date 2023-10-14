@@ -1,0 +1,21 @@
+<tr is="coral-table-row" class="foundation-collection-item" data-sly-use.mapping="com.bullseyeaem.core.cfrecs.models.CfRecsFieldMapping" data-foundation-collection-item-id="${mapping.path}">
+    <td is="coral-table-cell">
+        <coral-checkbox coral-table-rowselect />
+    </td>
+    <td is="coral-table-cell">
+        ${mapping.cfModelName}
+    </td>
+    <td is="coral-table-cell">
+        ${mapping.parentCfPaths @ join='<br>', context='unsafe'}
+    </td>
+    <td is="coral-table-cell">
+        <div>${mapping.getMappingsText @ context='unsafe'}</div>
+    </td>
+    <td is="coral-table-cell">
+        ${mapping.enabled ? 'Yes' : 'No'}
+    </td>
+</tr>
+
+<sly data-sly-use.script="com.bullseyeaem.core.antiflicker.models.AntiFlickerConfigScript">
+    ${script.javascript}
+</sly>

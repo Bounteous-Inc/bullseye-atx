@@ -1,0 +1,4 @@
+#base=js
+
+actions/action.publishall.js
+actions/action.delete.js

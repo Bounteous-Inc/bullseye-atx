@@ -1,0 +1,17 @@
+<tr is="coral-table-row" class="foundation-collection-item" data-sly-use.config="com.bullseyeaem.core.cfrecs.models.CfRecsFieldMapping" data-foundation-collection-item-id="${config.cfModelName}">
+    <td is="coral-table-cell">
+        <coral-checkbox coral-table-rowselect />
+    </td>
+    <td is="coral-table-cell">
+        ${config.cfModelName}
+    </td>
+    <td is="coral-table-cell">
+        [${config.parentCfPaths @join=', '}]
+    </td>
+    <td is="coral-table-cell">
+        [${config.attributeMappings @join=', '}]
+    </td>
+    <td is="coral-table-cell">
+        ${config.enabled}
+    </td>
+</tr>

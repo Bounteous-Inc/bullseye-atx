@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="nt:unstructured"
+          id="bullseye-aem"
+          jcr:title="Bullseye - AEM">
+    <anti-flicker jcr:primaryType="nt:unstructured"
+                  id="anti-flicker-admin"
+                  href="/bullseye-aem/anti-flicker"
+                  icon="moon"
+                  jcr:description="Create anti-flicker scripts for Adobe Target."
+                  jcr:title="Anti-Flicker Configs"/>
+    <cf-recs jcr:primaryType="nt:unstructured"
+             id="cf-recs-admin"
+             href="/apps/bullseye-aem/utilities/cf-recs.html/conf"
+             icon="graphPathing"
+             jcr:description="Export Content Fragments to Adobe Target Recommendations."
+             jcr:title="CF Recs"/>
+</jcr:root>

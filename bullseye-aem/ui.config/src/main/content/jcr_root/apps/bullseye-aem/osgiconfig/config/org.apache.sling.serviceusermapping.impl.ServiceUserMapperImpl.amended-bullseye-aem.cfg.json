@@ -1,0 +1,6 @@
+{
+  "user.mapping": [
+    "bullseye-aem.core:anti-flicker=bullseye-anti-flicker-service-user",
+    "bullseye-aem.core:cf-recs=bullseye-cf-recs-service-user"
+  ]
+}
