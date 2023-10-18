@@ -26,6 +26,22 @@ Features include:
 - Code deploys not required.
 - All managed from the AEM Touch UI interface.
 
+### Usage
+Once you have configured the anti-flicker settings and details, there are a couple different ways to use the generated script on your site.
+Either of the below `<script>` tags should be added to the top of the `<head>` section in the page.
+#### Remote Call:
+```agsl
+<script type="text/javascript" src="/services/flicker.min.js" ></script>
+```
+Minification can be enabled by passing the `min` selector as seen above.
+#### Embedded
+```agsl
+<script data-sly-use.antiflicker="${'com.bullseyeaem.core.antiflicker.models.AntiFlickerConfigScript' @minify=false}">
+    ${antiflicker.javaScript @context='unsafe'}
+</script>
+```
+Minification for embedded code is enabled by default but can be disabled by passing `@minify=false` to the Sling Model as seen above.
+
 ## CF Recs
 [Adobe Target Recommendations](https://experienceleague.adobe.com/docs/target/using/recommendations/recommendations.html) is a great tool for adding personalized offers for visitors of a site based on what else they have viewed or purchased.
 Of course, you can't offer recommendations without products.
