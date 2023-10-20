@@ -66,7 +66,38 @@ Note that to connect CF Recs to Adobe Target you will need to configure a [Targe
 Make sure to choose Oauth authentication type as opposed to the deprecated JWT.
 
 After that you will need to fill in the `Bullseye AEM - Target API Service (com.bullseyeaem.core.cfrecs.services.impl.TargetApiServiceImpl)` OSGI config.
+### Using Sling Models for Field Mappings
+If you need more dynamic logic for a particular field mapping, you can use Java in a Sling Model class.  To do so there are a couple pre-requisites.  
+- The Sling Model class must extend the `com.bullseyeaem.core.cfrecs.models.StructuredContentFragment` interface.
+- The Sling Model class must specify `com.bullseyeaem.core.cfrecs.models.StructuredContentFragment` as an adapter.
+- Annotate the Sling Model class with the `com.bullseyeaem.core.cfrecs.annotations.ContentFragmentSlingModel` annotation and specify the Content Fragment Model it represents.
 
+Here is an example of what that might look like for a Sling Model that generates a UUID based on the path of the resource to potentially be set as the entity ID mapping.
+```
+import com.bullseyeaem.core.cfrecs.annotations.ContentFragmentSlingModel;
+import com.bullseyeaem.core.cfrecs.models.StructuredContentFragment;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.DefaultInjectionStrategy;
+import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.SlingObject;
+
+import static java.util.UUID.nameUUIDFromBytes;
+
+@Model(adaptables = { Resource.class },
+        adapters = { StructuredContentFragment.class },
+        defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
+@ContentFragmentSlingModel(HotelModel.CF_MODEL_PATH)
+public class HotelModel implements StructuredContentFragment {
+    public static final String CF_MODEL_PATH = "/conf/bullseye-aem/settings/dam/cfm/models/hotel";
+
+    @SlingObject
+    private Resource resource;
+
+    public String getUUId() {
+        return nameUUIDFromBytes(resource.getPath().getBytes()).toString();
+    }
+}
+```
 ## Build locally
 
 To build all the modules run in the project root directory the following command with Maven 3:
